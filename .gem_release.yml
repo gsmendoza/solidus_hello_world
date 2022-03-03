@@ -1,0 +1,5 @@
+bump:
+  recurse: false
+  file: 'lib/solidus_hello_world/version.rb'
+  message: Bump SolidusHelloWorld to %{version}
+  tag: true
