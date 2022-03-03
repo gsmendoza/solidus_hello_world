@@ -8,8 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['George Mendoza']
   spec.email = 'gsmendoza@gmail.com'
 
-  spec.summary = 'TODO: Write a short summary, because RubyGems requires one.'
-  spec.description = 'TODO: Write a longer description or delete this line.'
+  spec.summary = 'A Solidus extension for displaying Hello World'
   spec.homepage = 'https://github.com/solidusio-contrib/solidus_hello_world#readme'
   spec.license = 'BSD-3-Clause'
 
