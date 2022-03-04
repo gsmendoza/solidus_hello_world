@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 Spree::Core::Engine.routes.draw do
-  # Add your extension routes here
+  if SolidusSupport.frontend_available?
+    resources :pages, only: :show
+  end
 end
