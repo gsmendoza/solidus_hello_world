@@ -10,14 +10,45 @@ module SolidusHelloWorld
         template 'initializer.rb', 'config/initializers/solidus_hello_world.rb'
       end
 
+      def copy_starter_frontend_files
+        return unless starter_frontend_available?
+
+        directory 'frontend/app/assets', 'app/assets'
+        directory 'frontend/app/controllers', 'app/controllers'
+        directory 'frontend/app/views', 'app/views'
+
+        copy_file 'frontend/config/routes.rb', 'tmp/routes.rb'
+        prepend_file 'config/routes.rb', File.read('tmp/routes.rb')
+      end
+
       def add_javascripts
-        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/solidus_hello_world\n"
-        append_file 'vendor/assets/javascripts/spree/backend/all.js', "//= require spree/backend/solidus_hello_world\n"
+        if starter_frontend_available?
+          append_file 'app/assets/javascripts/spree/frontend.js',
+            "//= require spree/frontend/solidus_hello_world\n"
+
+        elsif SolidusSupport.frontend_available?
+          append_file 'vendor/assets/javascripts/spree/frontend/all.js',
+            "//= require spree/frontend/solidus_hello_world\n"
+        end
+
+        append_file 'vendor/assets/javascripts/spree/backend/all.js',
+          "//= require spree/backend/solidus_hello_world\n"
       end
 
       def add_stylesheets
-        inject_into_file 'vendor/assets/stylesheets/spree/frontend/all.css', " *= require spree/frontend/solidus_hello_world\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
-        inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/solidus_hello_world\n", before: %r{\*/}, verbose: true # rubocop:disable Layout/LineLength
+        if starter_frontend_available?
+          append_file 'app/assets/stylesheets/spree/frontend/solidus_starter_frontend.css',
+            "/*= require spree/frontend/solidus_hello_world */\n"
+
+        elsif SolidusSupport.frontend_available?
+          inject_into_file 'vendor/assets/stylesheets/spree/frontend/all.css',
+            " *= require spree/frontend/solidus_hello_world\n", before: %r{\*/},
+            verbose: true
+        end
+
+        inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css',
+          " *= require spree/backend/solidus_hello_world\n", before: %r{\*/},
+          verbose: true
       end
 
       def add_migrations
@@ -31,6 +62,12 @@ module SolidusHelloWorld
         else
           puts 'Skipping bin/rails db:migrate, don\'t forget to run it!' # rubocop:disable Rails/Output
         end
+      end
+
+      private
+
+      def starter_frontend_available?
+        defined?(SolidusStarterFrontend)
       end
     end
   end
