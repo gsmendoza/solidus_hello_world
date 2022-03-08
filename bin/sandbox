@@ -61,6 +61,8 @@ group :test, :development do
     gem 'pry-byebug'
   end
 end
+
+send(:eval_gemfile, '../Gemfile-local') if File.exist? '../Gemfile-local'
 RUBY
 
 unbundled bundle install --gemfile Gemfile
