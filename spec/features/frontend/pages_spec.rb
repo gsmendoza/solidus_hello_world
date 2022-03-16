@@ -6,5 +6,10 @@ RSpec.describe "Pages", type: :feature do
       visit spree.page_path 'hello_world'
       expect(page).to have_content('Hello World')
     end
+
+    it 'displays Hello World JS content', :js do
+      visit spree.page_path 'hello_world'
+      expect(page).to have_content('Hello World from JS!')
+    end
   end
 end
