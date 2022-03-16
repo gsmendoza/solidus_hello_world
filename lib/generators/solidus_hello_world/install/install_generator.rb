@@ -31,8 +31,10 @@ module SolidusHelloWorld
             "//= require spree/frontend/solidus_hello_world\n"
         end
 
-        append_file 'vendor/assets/javascripts/spree/backend/all.js',
-          "//= require spree/backend/solidus_hello_world\n"
+        if SolidusSupport.backend_available?
+          append_file 'vendor/assets/javascripts/spree/backend/all.js',
+            "//= require spree/backend/solidus_hello_world\n"
+        end
       end
 
       def add_stylesheets
@@ -46,9 +48,11 @@ module SolidusHelloWorld
             verbose: true
         end
 
-        inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css',
-          " *= require spree/backend/solidus_hello_world\n", before: %r{\*/},
-          verbose: true
+        if SolidusSupport.backend_available?
+          inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css',
+            " *= require spree/backend/solidus_hello_world\n", before: %r{\*/},
+            verbose: true
+        end
       end
 
       def add_migrations
