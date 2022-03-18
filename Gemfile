@@ -3,10 +3,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
+solidus_path = ENV.fetch('SOLIDUS_PATH', nil)
+solidus_branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
 solidus_repo = ENV.fetch('SOLIDUS_REPO', 'solidusio/solidus')
 
-gem 'solidus', github: solidus_repo, branch: branch
+gem 'solidus', solidus_path ? { path: solidus_path } : { github: solidus_repo, branch: solidus_branch }
 
 # Needed to help Bundler figure out how to resolve dependencies,
 # otherwise it takes forever to resolve them.
