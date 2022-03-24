@@ -9,6 +9,10 @@ solidus_repo = ENV.fetch('SOLIDUS_REPO', 'solidusio/solidus')
 
 gem 'solidus', solidus_path ? { path: solidus_path } : { github: solidus_repo, branch: solidus_branch }
 
+gem 'solidus_frontend',
+  github: 'gsmendoza/solidus',
+  branch: 'gsmendoza/eng-304-update-commontest_app-to-apply-starter'
+
 # Needed to help Bundler figure out how to resolve dependencies,
 # otherwise it takes forever to resolve them.
 # See https://github.com/bundler/bundler/issues/6677
